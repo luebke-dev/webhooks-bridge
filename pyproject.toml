@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "webhooks-bridge"
+version = "0.1.0"
+description = ""
+repository = "https://github.com/SebastianLuebke/webhooks-bridge"
+authors = ["Sebastian Lübke <github@luebke.io>"]
+readme = "README.md"
+packages = [{include = "webhooks_bridge"}]
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.89.1"
+PyYAML = "^6.0"
+Jinja2 = "^3.1.2"
+uvicorn = "^0.20.0"
+httpx = "^0.23.3"
+aiofiles = "^22.1.0"
+
+
+[tool.poetry.dev-dependencies]
+ruff = "^0.0.237"
+black = "^22.12.0"
+httpie = "^3.2.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

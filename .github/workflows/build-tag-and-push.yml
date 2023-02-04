@@ -1,0 +1,35 @@
+name: Build tag and push to dockerhub
+on:
+  push:
+    tags:
+      - '**'
+jobs:
+  build-tags-for-dockerhub:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: login docker
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: build docker image
+        run: docker build -t sebastiannoelluebke/webhooks-bridge:${{github.ref_name}} .
+      - name: push
+        run: docker push sebastiannoelluebke/webhooks-bridge:${{github.ref_name}}
+  build-tags-for-pypi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: install poetry
+        run: pip install poetry
+      - name: build python package
+        run: poetry install
+      - name: set pypi token
+        run: poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+      - name: build python package
+        run: poetry build
+      - name: build python package
+        run: poetry publish
