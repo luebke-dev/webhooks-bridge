@@ -1,12 +1,28 @@
 # Webhooks Bridge
+
 A simple webhook receiver that filters, transforms and forwards webhooks.
 
+## Features
+
+- **Filter**: Use Jinja2 templates with conditions to filter incoming webhooks
+- **Transform**: Transform webhook payloads using Jinja2 templates
+- **Forward**: Forward webhooks to multiple endpoints
+- **Secure**: SSL verification enabled, proper error handling
+- **Type-safe**: Full type coverage with mypy
+- **Tested**: Comprehensive test suite
+
 ## Install
+
+### Prerequisites
+- Python 3.11+
+- Poetry (for development)
+
 ### pip
 ```shell
 pip install webhooks-bridge
 WEBHOOKS_BRIDGE_CONFIG_PATH=$PWD uvicorn webhooks_bridge.main:app --port 8080
 ```
+
 ### Docker
 ```shell
 export DATA_DIR=<YOUR_CONFIG_DIR>
@@ -15,6 +31,28 @@ docker run -p 8888:80 \
   -e WEBHOOKS_BRIDGE_LOG_LEVEL=DEBUG \
   --mount type=bind,source=$DATA_DIR,target=/config \
   sebastiannoelluebke/webhooks-bridge:latest
+```
+
+### Development Setup
+```shell
+# Clone the repository
+git clone https://github.com/luebke-dev/webhooks-bridge.git
+cd webhooks-bridge
+
+# Install dependencies
+poetry install
+
+# Run tests
+poetry run pytest
+
+# Run linting
+bash scripts/lint.sh
+
+# Format code
+bash scripts/format.sh
+
+# Run the application
+WEBHOOKS_BRIDGE_CONFIG_PATH=/path/to/config poetry run uvicorn webhooks_bridge.main:app --port 8080
 ```
 ## Usage
 
